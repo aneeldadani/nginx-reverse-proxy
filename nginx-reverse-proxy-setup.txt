@@ -1,0 +1,20 @@
+#Install NGINX
+sudo apt-get install nginx
+
+#Unlink default virtual host
+unlink /etc/nginx/sites-enabled/default
+
+#Create reverse-proxy.conf file
+sudo vi /etc/nginx/sites-available/reverse-proxy.conf
+
+#Values to enter in reverse-proxy.conf
+server {
+    listen 80;
+    location / {
+    return 301 https://$host$request_uri;
+    }
+}
+
+#Enable proxy with symlink
+ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf
+

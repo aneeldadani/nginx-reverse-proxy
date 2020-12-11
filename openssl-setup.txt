@@ -1,0 +1,41 @@
+#Check if openssl is available, output should look like this: /usr/bin/openssl
+which openssl
+
+#openssl command to run with explanation of each flag
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/salt-demo.key -out /etc/ssl/certs/salt-demo.pem
+
+#req: This subcommand is used for creating a new X.509 cert. The "X.509" is a public key infrastructure standard that SSL and TLS adhere to for its key and certificate management.
+#-x509: This further modifies the previous subcommand by telling the utility that we want to make a self-signed certificate.
+#-nodes: This is used to skip the passphrase option to secure our certificate.
+#-days 365: This option sets the validity for the certificate in days. We are setting it for a year here.
+#-newkey rsa:2048: This specifies that we want to generate a new RSA key with 2048 bits long along with the certificate.
+#-keyout: This option tells OpenSSL where to place the generated private key file.
+#-out: This option tells OpenSSL where to place the generated certificate.
+
+#Create strong Diffie-Hellman Group
+openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
+#Snippet configuraiton with SSL details
+sudo vi /etc/nginx/snippets/self-signed.conf
+
+#Values to enter in document
+ssl_certificate /etc/ssl/certs/salt-demo.pem;
+ssl_certificate_key /etc/ssl/private/salt-demo.key;
+
+#Append to reverse-proxy.conf
+server {
+
+    listen 443;
+    server_name ec2-54-188-29-238.us-west-2.compute.amazonaws.com;
+
+    ssl_certificate           /etc/ssl/certs/salt-demo.pem;
+    ssl_certificate_key       /etc/ssl/private/salt-demo.key;
+
+    ssl on;
+
+    access_log  /var/log/nginx/access.log;
+
+    location / {
+        proxy_pass https://httpbin.org;
+    }
+}
