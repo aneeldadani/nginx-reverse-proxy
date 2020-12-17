@@ -1,0 +1,12 @@
+1. Add repo and install suricata with jq
+sudo add-apt-repository ppa:oisf/suricata-stable
+sudo apt update
+sudo apt install suricata jq
+
+2. Check status of suricata
+sudo systemctl status suricata
+
+3. Enable PCAP in /etc/suricata/suricata.yaml
+- pcap-log:
+    enabled:  yes
+    filename: log.pcap
