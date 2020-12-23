@@ -1,0 +1,7 @@
+[Unit]
+Description=TCPDump SystemD Daemon
+[Service]
+ExecStart=/usr/bin/nohup /usr/sbin/tcpdump -i eth0 -s 0 -W 50 -C 50 -w /tmp/tcpdump.pcap
+Restart=always
+[Install]
+WantedBy=multi-user.target
