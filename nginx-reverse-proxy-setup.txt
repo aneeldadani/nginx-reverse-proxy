@@ -8,14 +8,23 @@ unlink /etc/nginx/sites-enabled/default
 sudo vi /etc/nginx/sites-available/reverse-proxy.conf
 
 4. Values to enter in reverse-proxy.conf
+upstream backends{
+    server httpbin.org:80;
+}
+
 server {
     listen 80;
+    listen 443 ssl;
+
+    server_name ec2-18-237-94-208.us-west-2.compute.amazonaws.com;
+    ssl_certificate           /etc/ssl/certs/salt-demo.pem;
+    ssl_certificate_key       /etc/ssl/private/salt-demo.key;
 
     access_log /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
 
     location / {
-    return 301 https://$host$request_uri;
+        proxy_pass http://httpbin.org;
     }
 }
 
