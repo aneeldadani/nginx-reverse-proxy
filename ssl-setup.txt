@@ -20,7 +20,6 @@ ssl_certificate_key /etc/ssl/private/salt-demo.key;
 server {
 
     listen 443;
-    server_name ec2-54-188-29-238.us-west-2.compute.amazonaws.com;
 
     ssl_certificate           /etc/ssl/certs/salt-demo.pem;
     ssl_certificate_key       /etc/ssl/private/salt-demo.key;
