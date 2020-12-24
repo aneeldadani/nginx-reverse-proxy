@@ -9,7 +9,7 @@ sudo vi /etc/nginx/sites-available/reverse-proxy.conf
 
 4. Values to enter in reverse-proxy.conf
 upstream backends{
-    server httpbin.org:80;
+    server httpbin.org:443;
 }
 
 server {
