@@ -21,7 +21,6 @@ var (
 	err         error
 	timeout     time.Duration = -1 * time.Second
 	handle      *pcap.Handle
-	packetCount int = 0
 )
 
 func main() {
@@ -65,6 +64,5 @@ func main() {
 	for packet := range packetSource.Packets() {
 		fmt.Println(packet)
 		w.WritePacket(packet.Metadata().CaptureInfo, packet.Data())
-		packetCount++
 	}
 }
